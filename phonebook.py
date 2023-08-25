@@ -1,4 +1,44 @@
+import argparse
 import csv
+
+parser = argparse.ArgumentParser(
+    description="Phonebook - search, edit, and list contacts"
+)
+parser.add_argument(
+    "-A", "--action", choices=("print", "add", "edit", "search")
+)
+
+parser.add_argument(
+    "-cpp",
+    "--contacts_per_page",
+    type=int,
+    default=10,
+    help="Number of contacts per page (optional). By default 10 contacts per page will be displayed.",
+)
+
+parser.add_argument(
+    "-cts",
+    "--contact_to_search",
+    help="Contact to search. Enter 6 comma-separated values: last name, first name, middle name, company name, work phone, cellphone. Leave blank space for values that should not be searched. Each value may be added in part or in full.",
+)
+
+
+parser.add_argument(
+    "-oc",
+    "--old_contact",
+    help="Contact to be edited. Enter 6 comma-separated values: last name, first name, middle name, company name, work phone, cellphone. No blank values allowed. Used with '--edit' and '--new-contact' arguments.",
+)
+
+parser.add_argument(
+    "-nc",
+    "--new_contact",
+    type=str,
+    help="Contact to edit. Enter 6 comma-separated values: last name, first name, middle name, company name, work phone, cellphone. No blank values allowed. Used with '--edit' and '--old-contact' arguments.",
+)
+
+
+args = parser.parse_args()
+
 
 CSV_FILE = "phonebook.csv"
 HEADER_FIELDS = [
@@ -21,7 +61,7 @@ def read_list_from_csv():
 
 def write_list_to_csv(contacts):
     """Takes a list of contacts, adds header fields, writes the result into a csv file."""
-    with open(CSV_FILE, "w") as f:
+    with open(CSV_FILE, "w", newline="") as f:
         write = csv.writer(f)
         write.writerow(HEADER_FIELDS)
         write.writerows(contacts)
@@ -49,7 +89,7 @@ def edit_existing_contact(contact_old, contact_new):
         write_list_to_csv(contacts)
 
 
-def find_contacts(search_values):
+def search_contacts(search_values):
     """Finds contacts based on provided search values"""
     contacts = read_list_from_csv()
     matched_contacts = []
@@ -66,6 +106,16 @@ def find_contacts(search_values):
         else:
             search_values_matched = True
     return matched_contacts
+
+
+def print_formatted_header():
+    print("-" * 130)
+    print("{:<15} {:<15} {:<15} {:<45} {:<20} {:<20}".format(*HEADER_FIELDS))
+    print("-" * 130)
+
+
+def print_formatted_contact(contact):
+    print("{:<15} {:<15} {:<15} {:<45} {:<20} {:<20}".format(*contact))
 
 
 def print_contacts(contacts_to_print, contacts_per_page=None):
@@ -88,56 +138,39 @@ def print_contacts(contacts_to_print, contacts_per_page=None):
         for i in range(total_contacts):
             # prints header fiels on every new page of contacts
             if (i + 1) % contacts_per_page == 1:
-                print("-" * 130)
-                print(
-                    "{:<15} {:<15} {:<15} {:<45} {:<20} {:<20}".format(
-                        *HEADER_FIELDS
-                    )
-                )
-                print("-" * 130)
+                print_formatted_header()
+            print_formatted_contact(contacts_to_print[i])
 
-            print(
-                "{:<15} {:<15} {:<15} {:<45} {:<20} {:<20}".format(
-                    *contacts_to_print[i]
-                )
-            )
+            if total_contacts == 1:
+                print_formatted_header()
 
             # prints a line and contacts range at the end of each page of contacts
             if (i + 1) % contacts_per_page == 0:
                 print("-" * 130)
                 print(
-                    f"contacts {i + 2 - contacts_per_page}-{i + 1} of {total_contacts}"
+                    f"Contacts {i + 2 - contacts_per_page}-{i + 1} of {total_contacts}"
                 )
         # prints a line and contacts range on the last page of contacts (if total contacts not evenly divided by contacts per page)
         if contacts_on_partly_filled_page:
             print("-" * 130)
             print(
-                f"contacts {total_full_pages * contacts_per_page + 1}-{total_contacts} of {total_contacts}"
+                f"Contacts {total_full_pages * contacts_per_page + 1}-{total_contacts} of {total_contacts}"
             )
 
 
-# add_contact_to_phonebook(
-#     [
-#         "Douglas",
-#         "Phillip",
-#         "Gisela",
-#         "Tincidunt Orci PC",
-#         "(01850) 7252127",
-#         "(04695) 3413952",
-#     ]
-# )
-
-
-# print_contacts(read_list_from_csv(), 30)
-print_contacts(
-    find_contacts(
-        [
-            "",
-            "",
-            "",
-            "",
-            "",
-            "72",
-        ]
-    )
-)
+if __name__ == "__main__":
+    if args.action == "print":
+        if args.contacts_per_page:
+            print_contacts(read_list_from_csv(), args.contacts_per_page)
+        else:
+            print_contacts(read_list_from_csv(), args.contacts_per_page)
+    elif args.action == "add":
+        new_contact = args.new_contact.split(",")
+        add_contact_to_phonebook(new_contact)
+    elif args.action == "edit":
+        old_contact = args.old_contact.split(",")
+        new_contact = args.new_contact.split(",")
+        edit_existing_contact(old_contact, new_contact)
+    elif args.action == "search":
+        search_values = args.contact_to_search.split(",")
+        print_contacts(search_contacts(search_values))
