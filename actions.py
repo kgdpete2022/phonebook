@@ -61,20 +61,25 @@ def search_contacts(search_values):
     return matched_contacts
 
 
+def remove_spaces(contact):
+    """Helper function - removes leading and trailing spaces from contact fields"""
+    return [field.strip() for field in contact]
+
+
 def print_formatted_header():
-    """Helper function to print_contacts_range function less cluttered"""
+    """Helper function - makes print_contacts_range function less cluttered"""
     print("-" * TOTAL_WIDTH)
     print("{:<15} {:<15} {:<15} {:<45} {:<20} {:<20}".format(*HEADER_FIELDS))
     print("-" * TOTAL_WIDTH)
 
 
 def print_formatted_contact(contact):
-    """Helper function to print_contacts_range function less cluttered"""
+    """Helper function - makes print_contacts_range function less cluttered"""
     print("{:<15} {:<15} {:<15} {:<45} {:<20} {:<20}".format(*contact))
 
 
 def print_contacts_range(contacts, start_index, end_index):
-    """Helper function to eliminate duplicate code in print_contacts function"""
+    """Helper function - eliminates duplicate code in print_contacts function"""
     print_formatted_header()
     for contact in contacts[start_index:end_index]:
         print_formatted_contact(contact)
