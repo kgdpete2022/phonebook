@@ -1,10 +1,11 @@
 import csv
 import string
+from typing import List, Tuple
 
 from settings import CSV_FILE, HEADER_FIELDS, PAGED_OUT_THRESHOLD, TOTAL_WIDTH
 
 
-def read_list_from_csv():
+def read_list_from_csv() -> List[List[str]]:
     """Takes a csv file and returns a list of contacts as lists"""
     with open(CSV_FILE, "r") as f:
         # Convert data to list omitting the header
@@ -12,7 +13,7 @@ def read_list_from_csv():
     return contacts
 
 
-def write_list_to_csv(contacts):
+def write_list_to_csv(contacts: List[List[str]]) -> None:
     """Takes a list of contacts, adds header fields, writes the result into a csv file."""
     with open(CSV_FILE, "w", newline="") as f:
         write = csv.writer(f)
@@ -21,7 +22,7 @@ def write_list_to_csv(contacts):
         print("The file {CSV_FILE} has been updated")
 
 
-def add_contact_to_phonebook(contact):
+def add_contact_to_phonebook(contact: List[str]) -> None:
     """Reads contacts from csv, adds new contact, writes the updated contacts to csv"""
     contacts = read_list_from_csv()
     if contact in contacts:
@@ -31,7 +32,9 @@ def add_contact_to_phonebook(contact):
         write_list_to_csv(contacts)
 
 
-def edit_existing_contact(contact_old, contact_new):
+def edit_existing_contact(
+    contact_old: List[str], contact_new: List[str]
+) -> None:
     """Reads contacts from csv, finds the contact to update, edit it, write all contacts to csv"""
     contacts = read_list_from_csv()
     if contact_new in contacts:
@@ -42,7 +45,7 @@ def edit_existing_contact(contact_old, contact_new):
         write_list_to_csv(contacts)
 
 
-def search_contacts(search_values):
+def search_contacts(search_values: List[str]) -> List[List[str]]:
     """Finds contacts based on provided search values"""
     contacts = read_list_from_csv()
     matched_contacts = []
@@ -61,24 +64,26 @@ def search_contacts(search_values):
     return matched_contacts
 
 
-def remove_spaces(contact):
+def remove_spaces(contact: List[str]) -> List[str]:
     """Helper function - removes leading and trailing spaces from contact fields"""
     return [field.strip() for field in contact]
 
 
-def print_formatted_header():
+def print_formatted_header() -> None:
     """Helper function - makes print_contacts_range function less cluttered"""
     print("-" * TOTAL_WIDTH)
     print("{:<15} {:<15} {:<15} {:<45} {:<20} {:<20}".format(*HEADER_FIELDS))
     print("-" * TOTAL_WIDTH)
 
 
-def print_formatted_contact(contact):
+def print_formatted_contact(contact: List[str]) -> None:
     """Helper function - makes print_contacts_range function less cluttered"""
     print("{:<15} {:<15} {:<15} {:<45} {:<20} {:<20}".format(*contact))
 
 
-def print_contacts_range(contacts, start_index, end_index):
+def print_contacts_range(
+    contacts: List[List[str]], start_index: int, end_index: int
+) -> None:
     """Helper function - eliminates duplicate code in print_contacts function"""
     print_formatted_header()
     for contact in contacts[start_index:end_index]:
@@ -87,7 +92,7 @@ def print_contacts_range(contacts, start_index, end_index):
     print(f"Contacts {start_index + 1}-{end_index} of {len(contacts)}\n")
 
 
-def print_contacts(contacts):
+def print_contacts(contacts: List[List[str]]) -> None:
     """Displays the contacts stored in the phonebook csv file"""
     contacts.sort()
     total_contacts = len(contacts)
