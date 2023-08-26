@@ -1,4 +1,5 @@
 import csv
+import string
 
 from settings import CSV_FILE, HEADER_FIELDS, PAGED_OUT_THRESHOLD, TOTAL_WIDTH
 
@@ -61,16 +62,19 @@ def search_contacts(search_values):
 
 
 def print_formatted_header():
+    """Helper function to print_contacts_range function less cluttered"""
     print("-" * TOTAL_WIDTH)
     print("{:<15} {:<15} {:<15} {:<45} {:<20} {:<20}".format(*HEADER_FIELDS))
     print("-" * TOTAL_WIDTH)
 
 
 def print_formatted_contact(contact):
+    """Helper function to print_contacts_range function less cluttered"""
     print("{:<15} {:<15} {:<15} {:<45} {:<20} {:<20}".format(*contact))
 
 
 def print_contacts_range(contacts, start_index, end_index):
+    """Helper function to eliminate duplicate code in print_contacts function"""
     print_formatted_header()
     for contact in contacts[start_index:end_index]:
         print_formatted_contact(contact)
@@ -79,16 +83,25 @@ def print_contacts_range(contacts, start_index, end_index):
 
 
 def print_contacts(contacts):
+    """Displays the contacts stored in the phonebook csv file"""
     contacts.sort()
     total_contacts = len(contacts)
     if total_contacts <= PAGED_OUT_THRESHOLD:
         contacts_per_page = 0
     else:
-        contacts_per_page = int(
-            input(
-                "Enter the number of contacts to be printed on each page or '0' to print them all on one page: "
+        while True:
+            input_valid = True
+            user_input = input(
+                "Please enter the number of contacts to be printed on each page or 0 to display them all on one page: "
             )
-        )
+            for el in user_input:
+                if el not in string.digits:
+                    print("This must be a positive integer or 0\n")
+                    input_valid = False
+                    break
+            if input_valid:
+                contacts_per_page = int(user_input)
+                break
 
     if not total_contacts:
         print("No contacts to print!\n")
