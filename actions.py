@@ -15,6 +15,7 @@ def read_list_from_csv() -> List[List[str]]:
 
 def write_list_to_csv(contacts: List[List[str]]) -> None:
     """Takes a list of contacts, adds header fields, writes the result into a csv file."""
+    contacts.sort()
     with open(CSV_FILE, "w", newline="") as f:
         write = csv.writer(f)
         write.writerow(HEADER_FIELDS)
