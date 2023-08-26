@@ -42,33 +42,13 @@ python phonebook.py -A edit -oc "Scott, Michael, Gary, Dunder Mifflin, (012) 345
 ```
 python phonebook.py -A search -sv "P,,,,,"
 ```
-This will return all contacts with last name starting with the letter "P" (7 matches in the test dataset):
-----------------------------------------------------------------------------------------------------------------------------------
-Last name       First Name      Middle Name     Company                                       Phone (work)         Phone (cell)        
-----------------------------------------------------------------------------------------------------------------------------------
-Paul            Gisela          Channing        Dapibus Gravida Corp.                         (021) 24818674       (006) 94200382
-Petty           Fitzgerald      Reese           Iaculis Inc.                                  (00366) 5083088      (08607) 6564837
-Phillips        Helen           Clare           Interdum Inc.                                 (08184) 2673517      (033883) 076142
-Phillips        Jaime           Iona            Nulla Semper Tellus Limited                   (0629) 29168229      (098) 26132110
-Pope            Dara            Tarik           Sociis Natoque Inc.                           (00282) 9917572      (0087) 85734227
-Potter          Maxwell         Ori             Cras Lorem Inc.                               (04884) 2440861      (044) 18012479
-Pratt           Ima             Kiayada         Nisl Maecenas Associates                      (0238) 13933753      (084) 77213442
-----------------------------------------------------------------------------------------------------------------------------------
-Contacts 1-7 of 7
+This will return all contacts with last name starting with the letter "P" (7 matches in the test dataset).
 
 
 ```
 python phonebook.py -A search -sv "tt,,,,,07"
 ```
-This will return all contacts with last name containing "tt" and cellphone having the sequence of "07" (2 matches in the test dataset):
-----------------------------------------------------------------------------------------------------------------------------------
-Last name       First Name      Middle Name     Company                                       Phone (work)         Phone (cell)        
-----------------------------------------------------------------------------------------------------------------------------------
-Petty           Fitzgerald      Reese           Iaculis Inc.                                  (00366) 5083088      (08607) 6564837
-Sutton          Amy             Cecilia         Tempus Non Ltd                                (084) 84047599       (0623) 14378007
-----------------------------------------------------------------------------------------------------------------------------------
-Contacts 1-2 of 2
-
+This will return all contacts with last name containing "tt" and cellphone having the sequence of "07" (2 matches in the test dataset).
 
 
 ## Developed by
