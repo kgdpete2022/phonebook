@@ -23,21 +23,21 @@ python load_test_data.py
 
 All commands are executed by running the phonebook.py script with the -A/--action argument, consisting of 4 possible options: print, add, edit, search:
 
-1. print - displays contacts from the phonebook sorted by last name in alphabetical order, requires no additional arguments. Example:
+**print** - displays contacts from the phonebook sorted by last name in alphabetical order, requires no additional arguments. Example:
 ```
 python phonebook.py -A print
 ```
 Follow the prompts to display the contacts or exit.
 
-2. add - adds a new contact to the phonebook, requires one additional argument: -nc/--new_contact (a string of 6 comma-separated values corresponding to last name, first name, middle name, company name, work phone, cellphone). Example:
+**add** - adds a new contact to the phonebook, requires one additional argument: -nc/--new_contact (a string of 6 comma-separated values corresponding to last name, first name, middle name, company name, work phone, cellphone). Example:
 ```
 python phonebook.py -A add -nc "Scott, Michael, Gary, Dunder Mifflin, (012) 3456789, (987) 64321"
 ```
-3. edit - edits an existing contact in the phonebook, requires two extra arguments: -oc/--old_contact and -nc/--new_contact (both are strings of 6 comma-separated values corresponding to last name, first name, middle name, company name, work phone, cellphone). -oc data must be entered in full to avoid ambiguity or a false match. Example:
+**edit** - edits an existing contact in the phonebook, requires two extra arguments: -oc/--old_contact and -nc/--new_contact (both are strings of 6 comma-separated values corresponding to last name, first name, middle name, company name, work phone, cellphone). -oc data must be entered in full to avoid ambiguity or a false match. Example:
 ```
 python phonebook.py -A edit -oc "Scott, Michael, Gary, Dunder Mifflin, (012) 3456789, (987) 64321" -nc "Shrute, Dwight, Kurt, Dunder Mifflin, (012) 111111, (987) 2222222"
 ```
-4. search - finds contacts in the phonebook matching the provided data, requires one additional argument: -sv/--search_values (6 comma-separated values corresponding to last name, first name, middle name, company name, work phone, cellphone. Leave blank space for values that should not be searched. Each value is case-sensitive and may be added in part, in full, or left blank. Multiple matches may be found as the result.) Example:
+**search** - finds contacts in the phonebook matching the provided data, requires one additional argument: -sv/--search_values (6 comma-separated values corresponding to last name, first name, middle name, company name, work phone, cellphone. Leave blank space for values that should not be searched. Each value is case-sensitive and may be added in part, in full, or left blank. Multiple matches may be found as the result.) Example:
 
 ```
 python phonebook.py -A search -sv "P,,,,,"
